@@ -1,46 +1,49 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { IsEmail, IsLowercase, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { ENUM_ROLES } from 'src/common/enums/user.enum';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+  @PrimaryGeneratedColumn('increment')
+  id: number;
   /**
    * First Name
    */
   @Column({ type: 'varchar', length: 96 })
-  @IsNotEmpty()
-  @MaxLength(96)
-  first_name: string;
-
-  /**
-   * Last Name
-   */
-  @Column({ type: 'varchar', length: 96 })
-  @IsNotEmpty()
-  @MaxLength(96)
-  last_name: string;
-
+  name: string;
   /**
    * Email
    */
   @Column({ type: 'varchar', length: 96, unique: true })
-  @IsEmail()
-  @IsLowercase()
-  @IsNotEmpty()
-  @MaxLength(96)
   email: string;
 
+  @Column({ type: 'varchar', length: 96, unique: true })
+  mobile: string;
 
+  // profile_photo_path
+  @Column({ type: 'varchar', length: 96 })
+  profile_photo_path: string;
+
+  // profile_photo_path
+  @Column({
+    type: 'enum',
+    enum: ENUM_ROLES,
+    nullable: true,
+  })
+  role?: ENUM_ROLES;
   /**
    * Password
    */
   @Column({ type: 'varchar', length: 96 })
-  @IsNotEmpty()
-  @MinLength(8)
-  @MaxLength(96)
   password: string;
+
+  @Column({ type: 'boolean' })
+  status: boolean;
 
   /**
    * Created At

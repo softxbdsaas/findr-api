@@ -1,7 +1,9 @@
 // import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsBoolean,
   IsDate,
   IsEmail,
+  IsEnum,
   IsLowercase,
   IsNotEmpty,
   IsOptional,
@@ -9,39 +11,15 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { ENUM_ROLES } from 'src/common/enums/user.enum';
 
 export class CreateUserDto {
-  /**
-   * First Name
-   */
-  // @ApiProperty({
-  //   description: 'User Firs Name',
-  //   example: 'Jhon',
-  // })
+
   @IsString()
   @IsNotEmpty()
   @MaxLength(96)
-  first_name: string;
+  name: string;
 
-  /**
-   * Last Name
-   */
-  // @ApiProperty({
-  //   description: 'User Last Name',
-  //   example: 'Doe',
-  // })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(96)
-  last_name: string;
-
-  /**
-   * Email
-   */
-  // @ApiProperty({
-  //   description: 'User Email',
-  //   example: 'example@gmail.com',
-  // })
   @IsString()
   @IsEmail()
   @IsLowercase()
@@ -49,13 +27,18 @@ export class CreateUserDto {
   @MaxLength(96)
   email: string;
 
-  /**
-   * Password
-   */
-  // @ApiProperty({
-  //   description: 'User Password',
-  //   example: 'Password1234@',
-  // })
+  @IsBoolean()
+  status: boolean;
+
+  @IsEnum(ENUM_ROLES)
+  role: ENUM_ROLES;
+
+  @IsString()
+  profile_photo_path: string;
+
+  @IsString()
+  mobile: string;
+
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
@@ -67,7 +50,7 @@ export class CreateUserDto {
    */
   @IsDate()
   @IsOptional()
-  create_at?: Date;
+  created_at?: Date;
 
   /**
    * Updated At
