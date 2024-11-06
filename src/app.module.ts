@@ -14,6 +14,7 @@ import jwtConfig from './app/modules/auth/config/jwt.config';
 import { AuthenticationGuard } from './app/modules/auth/guards/authentication/authentication.guard';
 import { GeofencesModule } from './app/modules/geofences/geofences.module';
 import { AttendancesModule } from './app/modules/attendances/attendances.module';
+import { PointsModule } from './app/modules/points/points.module';
 const ENV = process.env.NODE_ENV;
 @Module({
   imports: [
@@ -43,6 +44,7 @@ const ENV = process.env.NODE_ENV;
     AuthModule,
     GeofencesModule,
     AttendancesModule,
+    PointsModule,
   ],
 
   controllers: [AppController],

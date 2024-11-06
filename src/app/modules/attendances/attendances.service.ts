@@ -38,8 +38,8 @@ export class AttendancesService {
     return this.attendanceRepository.save(updatedAttendance);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number) {
     const attendance = await this.findOne(id);
-    await this.attendanceRepository.remove(attendance);
+    return this.attendanceRepository.remove(attendance);
   }
 }
