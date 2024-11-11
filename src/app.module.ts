@@ -15,6 +15,10 @@ import { AuthenticationGuard } from './app/modules/auth/guards/authentication/au
 import { GeofencesModule } from './app/modules/geofences/geofences.module';
 import { AttendancesModule } from './app/modules/attendances/attendances.module';
 import { PointsModule } from './app/modules/points/points.module';
+import { GroupTypesModule } from './app/modules/group_types/group_types.module';
+import { GroupsModule } from './app/modules/groups/groups.module';
+import { PackagesModule } from './app/modules/packages/packages.module';
+import { MembersModule } from './app/modules/members/members.module';
 const ENV = process.env.NODE_ENV;
 @Module({
   imports: [
@@ -45,6 +49,10 @@ const ENV = process.env.NODE_ENV;
     GeofencesModule,
     AttendancesModule,
     PointsModule,
+    GroupTypesModule,
+    GroupsModule,
+    PackagesModule,
+    MembersModule,
   ],
 
   controllers: [AppController],
