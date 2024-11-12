@@ -4,8 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Groups } from '../../groups/entities/group.entity';
+import { User } from '../../users/entities/user.entity';
+
 @Entity('members')
 export class Member {
   @PrimaryGeneratedColumn('increment', { type: 'bigint', unsigned: true })
@@ -14,19 +17,43 @@ export class Member {
   @Column({ type: 'bigint' })
   user_id: number;
 
+  @ManyToOne(() => User, {
+    eager: true,
+    nullable: false,
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @Column({ type: 'bigint' })
+  group_id: number;
+
   @ManyToOne(() => Groups)
   @JoinColumn({ name: 'group_id' })
   group: Groups;
 
-  @Column({ type: 'bigint' })
+  @Column({
+    type: 'bigint',
+    default: 1,
+    comment: '1: active, 0: inactive',
+  })
   status: number;
 
   @Column({ type: 'bigint' })
   added_by: number;
 
-  @Column({ type: 'timestamp' })
+  @ManyToOne(() => User, {
+    eager: true,
+    nullable: false,
+  })
+  @JoinColumn({ name: 'added_by' })
+  added_user: User;
+
+  // Automatically sets the current timestamp when the entity is created
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column({ type: 'timestamp' })
+  // Automatically sets the current timestamp when the entity is updated
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updated_at: Date;
+
 }

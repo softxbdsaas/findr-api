@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import databaseConfig from './config/database.config';
 import environmentValidation from './config/environment.validation';
 import { AccessTokenGuard } from './app/modules/auth/guards/access-token/access-token.guard';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './app/modules/auth/config/jwt.config';
 import { AuthenticationGuard } from './app/modules/auth/guards/authentication/authentication.guard';
@@ -19,13 +19,16 @@ import { GroupTypesModule } from './app/modules/group_types/group_types.module';
 import { GroupsModule } from './app/modules/groups/groups.module';
 import { PackagesModule } from './app/modules/packages/packages.module';
 import { MembersModule } from './app/modules/members/members.module';
+import { DataResponseInterceptor } from './common/interceptor/data-response.interceptor';
+import appConfig from './config/app.config';
+import { DatabaseExceptionFilter } from './common/errors/global.errors';
 const ENV = process.env.NODE_ENV;
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ENV ? `.env.${ENV}` : '.env',
-      load: [databaseConfig],
+      load: [appConfig,databaseConfig],
       validationSchema: environmentValidation,
     }),
     TypeOrmModule.forRootAsync({
@@ -64,7 +67,15 @@ const ENV = process.env.NODE_ENV;
     },
     {
       provide: APP_INTERCEPTOR,
+      useClass: DataResponseInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: DatabaseExceptionFilter,
     },
     AccessTokenGuard,
   ],

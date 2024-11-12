@@ -1,28 +1,112 @@
+import { Transform } from 'class-transformer';
+import {
+  IsString,
+  IsInt,
+  IsOptional,
+  Min,
+  Max,
+} from 'class-validator';
+
 export class CreatePackageDto {
-    name: string;
-    package_type: number;
-    point: number;
-    family_group: number;
-    circle_group: number;
-    family_group_member: number;
-    circle_group_member: number;
-    wywtm_member: number;
-    family_group_total_tracking: number;
-    circle_group_total_tracking: number;
-    wywtm_total_tracking: number;
-  }
-  
-  export class UpdatePackageDto {
-    name?: string;
-    package_type?: number;
-    point?: number;
-    family_group?: number;
-    circle_group?: number;
-    family_group_member?: number;
-    circle_group_member?: number;
-    wywtm_member?: number;
-    family_group_total_tracking?: number;
-    circle_group_total_tracking?: number;
-    wywtm_total_tracking?: number;
-  }
-  
+  @IsString()
+  name: string;
+
+  @IsInt()
+  @Min(1)
+  @Max(3)
+  package_type: number; // Assuming 1, 2, or 3 are valid package types
+
+
+  @Min(0)
+  @Transform(({ value }) => parseFloat(value))  // Transform string to float
+  point: number;
+
+
+  @IsInt()
+  @Min(0)
+  family_group: number;
+
+  @IsInt()
+  @Min(0)
+  circle_group: number;
+
+  @IsInt()
+  @Min(0)
+  family_group_member: number;
+
+  @IsInt()
+  @Min(0)
+  circle_group_member: number;
+
+  @IsInt()
+  @Min(0)
+  wywtm_member: number;
+
+  @IsInt()
+  @Min(0)
+  family_group_total_tracking: number;
+
+  @IsInt()
+  @Min(0)
+  circle_group_total_tracking: number;
+
+  @IsInt()
+  @Min(0)
+  wywtm_total_tracking: number;
+}
+
+export class UpdatePackageDto {
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @IsInt()
+  @Min(1)
+  @Max(3)
+  @IsOptional()
+  package_type?: number;
+
+  @Min(0)
+  @IsOptional()
+  point?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  family_group?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  circle_group?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  family_group_member?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  circle_group_member?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  wywtm_member?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  family_group_total_tracking?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  circle_group_total_tracking?: number;
+
+  @IsInt()
+  @Min(0)
+  @IsOptional()
+  wywtm_total_tracking?: number;
+}

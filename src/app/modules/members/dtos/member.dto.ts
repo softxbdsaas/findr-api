@@ -1,14 +1,28 @@
+import { IsInt, IsOptional, Min } from 'class-validator';
+
 export class CreateMemberDto {
-    user_id: number;
-    group: number;  // ID reference to Group
-    status: number;
-    added_by: number;
-  }
-  
-  export class UpdateMemberDto {
-    user_id?: number;
-    group?: number;
-    status?: number;
-    added_by?: number;
-  }
-  
+  @IsInt()
+  @Min(1, { message: 'user_id must be a positive integer' })
+  user_id: number;
+
+  @IsInt()
+  @Min(1, { message: 'group_id must be a positive integer' })
+  group_id: number;
+}
+
+export class UpdateMemberDto {
+  @IsOptional()
+  @IsInt()
+  @Min(1, { message: 'user_id must be a positive integer' })
+  user_id?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1, { message: 'group_id must be a positive integer' })
+  group_id?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(0, { message: 'status must be 0 (inactive) or 1 (active)' })
+  status?: number;
+}

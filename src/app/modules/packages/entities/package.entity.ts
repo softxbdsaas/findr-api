@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('packages')
 export class Packages {
@@ -38,9 +38,11 @@ export class Packages {
   @Column({ type: 'int' })
   wywtm_total_tracking: number;
 
-  @Column({ type: 'timestamp' })
+  // Automatically sets the current timestamp when the entity is created
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column({ type: 'timestamp' })
+  // Automatically sets the current timestamp when the entity is updated
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 }
